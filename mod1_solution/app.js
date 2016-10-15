@@ -7,30 +7,25 @@ angular.module('LunchCheck', [])
 LunchCheckController.$inject = ['$scope', '$filter'];
  function LunchCheckController($scope, $filter) {
    $scope.items = "";
-//   $scope.stateOfBeing = "hungry";
-//   $scope.cookieCost = .45;
-//
-//   $scope.sayMessage = function () {
-//     var msg = "Yaakov likes to eat healthy snacks at night!";
-//     var output = $filter('uppercase')(msg);
-//     return output;
-
+   $scope.state = "";
 
   $scope.checkItems = function () {
-    var message = "Please enter data first";
 
     if($scope.items != ""){
-
       var items = $scope.items.split(';');
+      var message = "Enjoy!"
       if(items.length >3){
         message = "Too much!";
-      }else{
-        message = "Enjoy!";
       }
-      
-    }
+      $scope.messageClass = "green";
+      $scope.inputClass = "greenBorder";
+      $scope.message = message;
 
-    $scope.message = message;
+    }else{
+      $scope.messageClass = "red";
+      $scope.inputClass = "redBorder";
+      $scope.message = "Please enter data first";
+    }
   };
 }
 
