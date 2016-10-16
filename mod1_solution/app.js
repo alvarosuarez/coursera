@@ -12,9 +12,9 @@ LunchCheckController.$inject = ['$scope', '$filter'];
   $scope.checkItems = function () {
 
     if($scope.items != ""){
-      var items = $scope.items.split(';');
+      var count = countItems();
       var message = "Enjoy!"
-      if(items.length >3){
+      if(count >3){
         message = "Too much!";
       }
       $scope.messageClass = "green";
@@ -27,6 +27,21 @@ LunchCheckController.$inject = ['$scope', '$filter'];
       $scope.message = "Please enter data first";
     }
   };
+
+  function countItems(){
+    var items = $scope.items.split(';');
+    var count = 0;
+    angular.forEach(items, function(value, key) {
+      var currentValue = value.trim();
+      if(currentValue!=''){
+        count++;
+      }
+    });
+    return count;
+
+  }
+
+
 }
 
 })();
