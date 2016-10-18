@@ -29,7 +29,7 @@ LunchCheckController.$inject = ['$scope', '$filter'];
   };
 
   function countItems(){
-    var items = $scope.items.split(';');
+    var items = $scope.items.split(',');
     var count = 0;
     angular.forEach(items, function(value, key) {
       var currentValue = value.trim();
