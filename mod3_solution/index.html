@@ -22,7 +22,7 @@
       {{list.message}}
     </div>
 
-    <found-items my-list="list"></found-items>
+    <found-items items="list.found" on-remove="list.removeItem(index)"></found-items>
     <!-- <found-items found-items="list.found" on-remove="list.removeItem(index)"></found-items> -->
   </div>
 
