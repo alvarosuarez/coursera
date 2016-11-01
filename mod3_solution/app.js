@@ -3,25 +3,51 @@
 
 angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
-.service('MenuSearchService', MenuSearchService);
+.service('MenuSearchService', MenuSearchService)
+.directive('foundItems', FoundItemsDirective);
 
-// LIST #1 - controller
+
+function FoundItemsDirective() {
+  var ddo = {
+    templateUrl: 'foundItems.html',
+    scope: {
+      items: '<'
+    }
+  };
+
+  return ddo;
+}
 
 MenuSearchService.$inject = ['$http'];
-NarrowItDownController.$inject = ['$scope','MenuSearchService'];
-function NarrowItDownController($scope, MenuSearchService) {
+NarrowItDownController.$inject = ['MenuSearchService'];
+function NarrowItDownController(MenuSearchService) {
   var list = this;
-  $scope.term = "";
-
+  list.term = "";
+  list.message = "";
   list.found = [];
 
   list.searchTerm = function () {
-    if($scope.term==''){
-      $scope.message = "Nothing found";
-      return;
+    if(list.term!=''){
+      var promise = MenuSearchService.getMatchedMenuItems(list.term);
+
+      promise.then(function (response) {
+        list.found = response;
+
+        if(list.found.length == 0){
+            list.message = "Nothing found";
+        }
+
+      })
+      .catch(function (error) {
+        console.log("Something went terribly wrong.");
+      });
+    } else{
+        list.message = "Nothing found";
     }
-      list.found = MenuSearchService.getMatchedMenuItems($scope.term);
-      console.log(list.found);
+  };
+
+  list.removeItem = function (itemIndex) {
+    MenuSearchService.removeItem(found,itemIndex);
   };
 }
 
@@ -30,19 +56,25 @@ function MenuSearchService($http) {
 
   service.getMatchedMenuItems = function (searchTerm) {
 
+
     return $http.get('https://davids-restaurant.herokuapp.com/menu_items.json').then(function (result) {
         // process result and only keep items that match
       var foundItems = []
       angular.forEach(result.data.menu_items, function(value, key) {
 
         if(new RegExp(searchTerm, "i").test(value.description)) {
-          foundItems.push(value.description);
+          var item = {id:value.id,short_name:value.short_name,description:value.description};
+          foundItems.push(item);
         }
       });
         // return processed items
         return foundItems;
     });
 
+  };
+
+  service.removeItem = function (items, itemIndex) {
+    items.splice(itemIndex, 1);
   };
 }
 
