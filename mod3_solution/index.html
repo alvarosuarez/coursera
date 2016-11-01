@@ -21,13 +21,8 @@
     <div class="message">
       {{list.message}}
     </div>
-    <ul>
-      <li ng-repeat="item in list.found">
-        {{ item.short_name }} - {{ item.description }}
-        <button ng-click="list.removeItem($index);">Don't want this one!</button>
-      </li>
-    </ul>
-    <!-- <found-items found-items="list.found"></found-items> -->
+
+    <found-items my-list="list"></found-items>
     <!-- <found-items found-items="list.found" on-remove="list.removeItem(index)"></found-items> -->
   </div>
 

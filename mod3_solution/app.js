@@ -11,7 +11,8 @@ function FoundItemsDirective() {
   var ddo = {
     templateUrl: 'foundItems.html',
     scope: {
-      items: '<'
+      list: '=myList'
+      // items: '<'
     }
   };
 
@@ -35,6 +36,7 @@ function NarrowItDownController(MenuSearchService) {
         if(list.found.length == 0){
             list.message = "Nothing found";
         }
+        console.log(list.found);
 
       })
       .catch(function (error) {
