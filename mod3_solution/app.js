@@ -24,7 +24,7 @@ function NarrowItDownController(MenuSearchService) {
   var list = this;
   list.term = "";
   list.message = "";
-  list.found = [];
+  list.found =[];
 
   list.searchTerm = function () {
     if(list.term!=''){
@@ -32,7 +32,6 @@ function NarrowItDownController(MenuSearchService) {
 
       promise.then(function (response) {
         list.found = response;
-
         if(list.found.length == 0){
             list.message = "Nothing found";
         }
@@ -47,7 +46,8 @@ function NarrowItDownController(MenuSearchService) {
   };
 
   list.removeItem = function (itemIndex) {
-    MenuSearchService.removeItem(found,itemIndex);
+    var found = list.found;
+    found.splice(itemIndex, 1);
   };
 }
 
@@ -59,7 +59,7 @@ function MenuSearchService($http) {
 
     return $http.get('https://davids-restaurant.herokuapp.com/menu_items.json').then(function (result) {
         // process result and only keep items that match
-      var foundItems = []
+      var foundItems =[];
       angular.forEach(result.data.menu_items, function(value, key) {
 
         if(new RegExp(searchTerm, "i").test(value.description)) {
@@ -71,10 +71,6 @@ function MenuSearchService($http) {
         return foundItems;
     });
 
-  };
-
-  service.removeItem = function (items, itemIndex) {
-    items.splice(itemIndex, 1);
   };
 }
 
