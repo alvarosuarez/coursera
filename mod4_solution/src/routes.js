@@ -25,11 +25,26 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
     templateUrl: 'src/templates/categories.html',
     controller: 'CategoriesController as catCtrl',
     resolve: {
-      items: ['MenuDataService', function (MenuDataService) {
+      categories: ['MenuDataService', function (MenuDataService) {
         return MenuDataService.getAllCategories();
       }]
     }
-  });
+  })
+
+  // categories list page
+  .state('items', {
+    url: '/items',
+    templateUrl: 'src/templates/items.html',
+    controller: 'ItemsController as itemsCtrl',
+    params: {
+      itemId: null
+    },
+    resolve: {
+      items: ['MenuDataService', function (MenuDataService) {
+        return MenuDataService.getItemsForCategory();
+      }]
+    }
+  });;
 }
 
 })();
