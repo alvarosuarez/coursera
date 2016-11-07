@@ -33,15 +33,12 @@ function RoutesConfig($stateProvider, $urlRouterProvider) {
 
   // categories list page
   .state('items', {
-    url: '/items',
+    url: '/items/{categoryName}',
     templateUrl: 'src/templates/items.html',
     controller: 'ItemsController as itemsCtrl',
-    params: {
-      itemId: null
-    },
     resolve: {
-      items: ['MenuDataService', function (MenuDataService) {
-        return MenuDataService.getItemsForCategory();
+      items: ['$stateParams', 'MenuDataService', function ($stateParams, MenuDataService) {
+        return MenuDataService.getItemsForCategory($stateParams.categoryName);
       }]
     }
   });;

@@ -31,7 +31,13 @@ function MenuDataService($q,$http) {
     var deferred = $q.defer();
 
     $http.get('https://davids-restaurant.herokuapp.com/menu_items.json?category='+categoryShortName).then(function (result) {
-        deferred.resolve(result);
+      var items = []
+
+      angular.forEach(result.data.menu_items, function(value, key) {
+          var item = {id:value.id,short_name:value.short_name,name:value.name,description:value.description,price_small:value.price_small};
+          items.push(item);
+      });
+      deferred.resolve(items);
     });
 
     return deferred.promise;
