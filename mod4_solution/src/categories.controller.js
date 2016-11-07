@@ -5,10 +5,10 @@ angular.module('data')
 .controller('CategoriesController', CategoriesController);
 
 
-CategoriesController.$inject = ['MenuDataService'];
-function CategoriesController(MenuDataService) {
+CategoriesController.$inject = ['MenuDataService','items'];
+function CategoriesController(MenuDataService,items) {
   var list = this;
-  list.categories = ['cat1','cat2']
+  list.categories = items;
   // MenuDataService.getAllCategories();
 
   // mainList.$onInit = function () {
